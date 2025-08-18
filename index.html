@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVG Security Lab - Educational Security Laboratory</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .warning-banner {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 40px;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+        
+        .warning-banner h1 {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .warning-banner p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .main-content {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+        }
+        
+        .section h2 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+        
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 20px 0;
+        }
+        
+        .card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+            border-left: 5px solid #3498db;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .card h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+        
+        .card p {
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .card .icon {
+            font-size: 2em;
+            margin-bottom: 15px;
+            display: block;
+        }
+        
+        .card.attacks {
+            border-left-color: #e74c3c;
+        }
+        
+        .card.defenses {
+            border-left-color: #27ae60;
+        }
+        
+        .card.educational {
+            border-left-color: #f39c12;
+        }
+        
+        .card.tools {
+            border-left-color: #9b59b6;
+        }
+        
+        .status-bar {
+            background: #ecf0f1;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .status-bar .status {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            margin: 5px;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+        
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status.warning {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .status.info {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+        
+        .quick-start {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+        
+        .quick-start h3 {
+            margin-bottom: 15px;
+        }
+        
+        .quick-start ol {
+            margin-left: 20px;
+        }
+        
+        .quick-start li {
+            margin-bottom: 8px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: white;
+            opacity: 0.8;
+        }
+        
+        @media (max-width: 768px) {
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .warning-banner h1 {
+                font-size: 2em;
+            }
+            
+            .container {
+                padding: 10px;
+            }
+            
+            .main-content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="warning-banner">
+            <h1>🛡️ SVG Security Lab</h1>
+            <p><strong>Educational Security Laboratory</strong> - Learn about SVG vulnerabilities and defense mechanisms</p>
+            <p style="font-size: 0.9em; margin-top: 10px; opacity: 0.8;">
+                ⚠️ All content is for educational purposes only. Synthetic payloads only.
+            </p>
+        </div>
+
+        <div class="main-content">
+            <div class="section">
+                <h2>🎯 Learning Objectives</h2>
+                <p>This laboratory provides hands-on experience with SVG security vulnerabilities, attack vectors, and defense mechanisms. By completing this lab, you will understand:</p>
+                
+                <div class="card-grid">
+                    <div class="card">
+                        <span class="icon">🔍</span>
+                        <h3>Attack Vectors</h3>
+                        <p>Understand how malicious SVG files can execute code and steal data</p>
+                    </div>
+                    <div class="card">
+                        <span class="icon">🛡️</span>
+                        <h3>Defense Mechanisms</h3>
+                        <p>Learn CSP, Trusted Types, DOMPurify, and other protection methods</p>
+                    </div>
+                    <div class="card">
+                        <span class="icon">🔧</span>
+                        <h3>Detection Tools</h3>
+                        <p>Use scanning tools to identify malicious content in SVG files</p>
+                    </div>
+                    <div class="card">
+                        <span class="icon">📚</span>
+                        <h3>Best Practices</h3>
+                        <p>Implement security best practices for handling SVG content</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>🚀 Quick Start</h2>
+                <div class="quick-start">
+                    <h3>Getting Started with SVG Security Lab</h3>
+                    <ol>
+                        <li><strong>Start the server:</strong> <code>python tools/server.py</code></li>
+                        <li><strong>Open your browser:</strong> Navigate to <code>http://localhost:8000</code></li>
+                        <li><strong>Begin with attacks:</strong> Visit the vulnerable demo to see how SVG attacks work</li>
+                        <li><strong>Learn defenses:</strong> Explore CSP, DOMPurify, and Trusted Types demos</li>
+                        <li><strong>Practice detection:</strong> Use the scanning tools to analyze SVG files</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>🔴 Attack Demonstrations</h2>
+                <p>Explore synthetic attack examples to understand SVG security vulnerabilities:</p>
+                
+                <div class="card-grid">
+                    <a href="demos/vulnerable.html" class="card attacks">
+                        <span class="icon">🚨</span>
+                        <h3>Vulnerable Demo</h3>
+                        <p>See how SVG attacks work without protection. Demonstrates XSS, cookie theft, and data exfiltration.</p>
+                    </a>
+                    <a href="attacks/basic-xss.svg" class="card attacks">
+                        <span class="icon">⚡</span>
+                        <h3>Basic XSS Attack</h3>
+                        <p>Simple JavaScript execution through SVG script tags. Educational demonstration only.</p>
+                    </a>
+                    <a href="attacks/cookie-theft.svg" class="card attacks">
+                        <span class="icon">🍪</span>
+                        <h3>Cookie Theft</h3>
+                        <p>Data exfiltration demonstration using SVG foreignObject elements.</p>
+                    </a>
+                    <a href="attacks/obfuscated.svg" class="card attacks">
+                        <span class="icon">🔒</span>
+                        <h3>Obfuscated Attack</h3>
+                        <p>Hidden malicious code using obfuscation techniques to evade detection.</p>
+                    </a>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>🟢 Defense Mechanisms</h2>
+                <p>Learn how to protect against SVG-based attacks using modern security technologies:</p>
+                
+                <div class="card-grid">
+                    <a href="defenses/csp-demo.html" class="card defenses">
+                        <span class="icon">🛡️</span>
+                        <h3>Content Security Policy</h3>
+                        <p>Block script execution and restrict resource loading with CSP headers.</p>
+                    </a>
+                    <a href="defenses/dompurify-demo.html" class="card defenses">
+                        <span class="icon">🧹</span>
+                        <h3>DOMPurify Sanitization</h3>
+                        <p>Clean SVG content by removing dangerous elements and attributes.</p>
+                    </a>
+                    <a href="defenses/trusted-types.html" class="card defenses">
+                        <span class="icon">🔐</span>
+                        <h3>Trusted Types</h3>
+                        <p>Prevent DOM-based XSS by enforcing type safety for dangerous sinks.</p>
+                    </a>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>📚 Educational Resources</h2>
+                <p>Comprehensive learning materials and documentation:</p>
+                
+                <div class="card-grid">
+                    <a href="educational/attack-vectors.md" class="card educational">
+                        <span class="icon">📖</span>
+                        <h3>Attack Vectors Guide</h3>
+                        <p>Detailed documentation of SVG attack vectors and techniques.</p>
+                    </a>
+                    <a href="educational/defense-guide.md" class="card educational">
+                        <span class="icon">📋</span>
+                        <h3>Defense Guide</h3>
+                        <p>Comprehensive guide to implementing SVG security defenses.</p>
+                    </a>
+                    <a href="educational/best-practices.md" class="card educational">
+                        <span class="icon">✅</span>
+                        <h3>Best Practices</h3>
+                        <p>Security best practices for handling SVG content safely.</p>
+                    </a>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>🔧 Tools and Utilities</h2>
+                <p>Detection and analysis tools for SVG security:</p>
+                
+                <div class="card-grid">
+                    <a href="detection/svg-scanner.py" class="card tools">
+                        <span class="icon">🔍</span>
+                        <h3>SVG Scanner</h3>
+                        <p>Python tool to scan SVG files for malicious content and security threats.</p>
+                    </a>
+                    <a href="tools/server.py" class="card tools">
+                        <span class="icon">🌐</span>
+                        <h3>Local Server</h3>
+                        <p>Simple HTTP server for running the lab locally.</p>
+                    </a>
+                    <a href="tools/payload-generator.py" class="card tools">
+                        <span class="icon">⚙️</span>
+                        <h3>Payload Generator</h3>
+                        <p>Generate synthetic payloads for educational testing.</p>
+                    </a>
+                </div>
+            </div>
+
+            <div class="status-bar">
+                <div class="status success">✅ Educational Purpose Only</div>
+                <div class="status warning">⚠️ Synthetic Payloads</div>
+                <div class="status info">📚 Learning Environment</div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p><strong>SVG Security Lab</strong> - Educational Security Laboratory</p>
+            <p>Use this knowledge responsibly to protect, not to harm.</p>
+        </div>
+    </div>
+
+    <script>
+        // Add some interactivity
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🛡️ SVG Security Lab - Educational Laboratory Loaded');
+            console.log('⚠️ WARNING: This is an educational environment with synthetic payloads only');
+            
+            // Add click tracking for educational purposes
+            document.querySelectorAll('.card').forEach(card => {
+                card.addEventListener('click', function(e) {
+                    if (this.href) {
+                        console.log('📚 Educational navigation:', this.href);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

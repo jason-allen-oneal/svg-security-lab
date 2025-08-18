@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVG Security Lab - Vulnerable Demo</title>
+    
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .warning-banner {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .demo-section {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .demo-title {
+            color: #2c3e50;
+            border-bottom: 3px solid #e74c3c;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .svg-container {
+            border: 2px solid #e74c3c;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+            background: #fdf2f2;
+        }
+        
+        .status {
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        
+        .status.danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .status.warning {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+            margin: 10px 0;
+        }
+        
+        .attack-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .attack-card {
+            border: 2px solid #e74c3c;
+            border-radius: 8px;
+            padding: 15px;
+            background: #fdf2f2;
+        }
+        
+        .attack-card h3 {
+            color: #c0392b;
+            margin-top: 0;
+        }
+        
+        .button {
+            background: #e74c3c;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+        }
+        
+        .button:hover {
+            background: #c0392b;
+        }
+        
+        .cookie-display {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: monospace;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="warning-banner">
+        <h1>🚨 SVG Security Lab - Vulnerable Demo</h1>
+        <p><strong>⚠️ WARNING:</strong> This page demonstrates SVG security vulnerabilities. All attacks are synthetic and educational.</p>
+    </div>
+
+    <div class="demo-section">
+        <h2 class="demo-title">Vulnerable SVG Demo Page</h2>
+        
+        <div class="status danger">
+            🚨 <strong>VULNERABLE:</strong> This page has no security protections and demonstrates how SVG attacks work
+        </div>
+        
+        <p>This page intentionally lacks security protections to demonstrate how malicious SVG files can:</p>
+        <ul>
+            <li>Execute arbitrary JavaScript</li>
+            <li>Steal browser cookies and data</li>
+            <li>Access localStorage and sessionStorage</li>
+            <li>Perform data exfiltration</li>
+            <li>Execute obfuscated payloads</li>
+        </ul>
+    </div>
+
+    <div class="demo-section">
+        <h2 class="demo-title">Test Cookies and Data</h2>
+        
+        <p>This page sets test cookies and localStorage data to demonstrate what can be stolen:</p>
+        
+        <div class="cookie-display" id="cookieDisplay">
+            <strong>Current Cookies:</strong> <span id="cookies"></span><br>
+            <strong>LocalStorage:</strong> <span id="localStorage"></span><br>
+            <strong>SessionStorage:</strong> <span id="sessionStorage"></span>
+        </div>
+        
+        <button class="button" onclick="setTestData()">Set Test Data</button>
+        <button class="button" onclick="clearTestData()">Clear Test Data</button>
+    </div>
+
+    <div class="demo-section">
+        <h2 class="demo-title">SVG Attack Demonstrations</h2>
+        
+        <div class="attack-grid">
+            <div class="attack-card">
+                <h3>🔴 Basic XSS Attack</h3>
+                <p>Simple JavaScript execution through SVG script tags</p>
+                <button class="button" onclick="loadAttack('basic-xss')">Load Attack</button>
+                <div class="svg-container" id="basic-xss-container">
+                    <p>Click button to load vulnerable SVG</p>
+                </div>
+            </div>
+            
+            <div class="attack-card">
+                <h3>🍪 Cookie Theft Attack</h3>
+                <p>Data exfiltration through SVG foreignObject</p>
+                <button class="button" onclick="loadAttack('cookie-theft')">Load Attack</button>
+                <div class="svg-container" id="cookie-theft-container">
+                    <p>Click button to load vulnerable SVG</p>
+                </div>
+            </div>
+            
+            <div class="attack-card">
+                <h3>🔒 Obfuscated Attack</h3>
+                <p>Hidden malicious code using obfuscation techniques</p>
+                <button class="button" onclick="loadAttack('obfuscated')">Load Attack</button>
+                <div class="svg-container" id="obfuscated-container">
+                    <p>Click button to load vulnerable SVG</p>
+                </div>
+            </div>
+            
+            <div class="attack-card">
+                <h3>📊 Data Exfiltration</h3>
+                <p>Comprehensive data collection and exfiltration</p>
+                <button class="button" onclick="loadAttack('data-exfil')">Load Attack</button>
+                <div class="svg-container" id="data-exfil-container">
+                    <p>Click button to load vulnerable SVG</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="demo-section">
+        <h2 class="demo-title">Attack Analysis</h2>
+        
+        <div class="status warning">
+            ⚠️ <strong>Console Monitoring:</strong> Open browser console to see attack execution logs
+        </div>
+        
+        <h3>What Each Attack Does:</h3>
+        
+        <h4>1. Basic XSS Attack</h4>
+        <div class="code-block">
+// Executes JavaScript when SVG loads
+&lt;script&gt;
+  console.log('XSS executed!');
+  alert('This demonstrates XSS vulnerability');
+&lt;/script&gt;
+        </div>
+        
+        <h4>2. Cookie Theft Attack</h4>
+        <div class="code-block">
+// Collects and logs sensitive data
+var cookies = document.cookie;
+var localStorage = /* collect localStorage */;
+console.log('Stolen data:', {cookies, localStorage});
+        </div>
+        
+        <h4>3. Obfuscated Attack</h4>
+        <div class="code-block">
+// Uses obfuscation to hide malicious code
+var _0x1a2b = 'ZWR1Y2F0aW9uYWw='; // base64 encoded
+var decoded = atob(_0x1a2b); // "educational"
+        </div>
+        
+        <h4>4. Data Exfiltration</h4>
+        <div class="code-block">
+// Comprehensive data collection
+var data = {
+  cookies: document.cookie,
+  localStorage: /* all localStorage */,
+  userAgent: navigator.userAgent,
+  screen: screen.width + 'x' + screen.height,
+  // ... more data
+};
+        </div>
+    </div>
+
+    <div class="demo-section">
+        <h2 class="demo-title">Security Implications</h2>
+        
+        <div class="status danger">
+            🚨 <strong>Real-World Impact:</strong> These vulnerabilities can lead to:
+        </div>
+        
+        <ul>
+            <li><strong>Session Hijacking:</strong> Stealing authentication tokens</li>
+            <li><strong>Data Breaches:</strong> Accessing sensitive user information</li>
+            <li><strong>Account Takeover:</strong> Using stolen credentials</li>
+            <li><strong>Privacy Violations:</strong> Collecting personal data</li>
+            <li><strong>Malware Distribution:</strong> Executing malicious code</li>
+        </ul>
+        
+        <p><strong>Next Steps:</strong> Visit the <a href="../defenses/csp-demo.html">CSP Demo</a>, <a href="../defenses/dompurify-demo.html">DOMPurify Demo</a>, or <a href="../defenses/trusted-types.html">Trusted Types Demo</a> to see how these attacks can be prevented.</p>
+    </div>
+
+    <script>
+        // Set test data for demonstration
+        function setTestData() {
+            // Set test cookies
+            document.cookie = "session_id=abc123def456; path=/";
+            document.cookie = "user_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9; path=/";
+            document.cookie = "preferences=dark_mode; path=/";
+            document.cookie = "last_visit=2024-01-15; path=/";
+            
+            // Set localStorage data
+            localStorage.setItem('user_id', '12345');
+            localStorage.setItem('email', 'user@example.com');
+            localStorage.setItem('theme', 'dark');
+            localStorage.setItem('language', 'en');
+            
+            // Set sessionStorage data
+            sessionStorage.setItem('temp_data', 'sensitive_information');
+            sessionStorage.setItem('form_data', 'credit_card_number');
+            
+            updateDataDisplay();
+            
+            console.log('✅ Test data set for demonstration');
+        }
+        
+        function clearTestData() {
+            // Clear cookies
+            document.cookie.split(";").forEach(function(c) { 
+                document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); 
+            });
+            
+            // Clear localStorage
+            localStorage.clear();
+            
+            // Clear sessionStorage
+            sessionStorage.clear();
+            
+            updateDataDisplay();
+            
+            console.log('✅ Test data cleared');
+        }
+        
+        function updateDataDisplay() {
+            document.getElementById('cookies').textContent = document.cookie || 'No cookies';
+            
+            const localStorageData = [];
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                localStorageData.push(key + '=' + localStorage.getItem(key));
+            }
+            document.getElementById('localStorage').textContent = localStorageData.join(', ') || 'No localStorage data';
+            
+            const sessionStorageData = [];
+            for (let i = 0; i < sessionStorage.length; i++) {
+                const key = sessionStorage.key(i);
+                sessionStorageData.push(key + '=' + sessionStorage.getItem(key));
+            }
+            document.getElementById('sessionStorage').textContent = sessionStorageData.join(', ') || 'No sessionStorage data';
+        }
+        
+        function loadAttack(type) {
+            const container = document.getElementById(type + '-container');
+            
+            // Load the appropriate attack SVG
+            const svgPath = '../attacks/' + type + '.svg';
+            
+            // Create object element to load SVG
+            const obj = document.createElement('object');
+            obj.data = svgPath;
+            obj.type = 'image/svg+xml';
+            obj.width = '300';
+            obj.height = '200';
+            
+            // Clear container and add SVG
+            container.innerHTML = '';
+            container.appendChild(obj);
+            
+            console.log('🚨 EDUCATIONAL DEMO: Loaded ' + type + ' attack SVG');
+            console.log('⚠️ This demonstrates a real vulnerability - in production, this would be dangerous!');
+        }
+        
+        // Initialize the demo
+        console.log('🚨 SVG Security Lab - Vulnerable Demo Loaded');
+        console.log('⚠️ WARNING: This page is intentionally vulnerable for educational purposes');
+        
+        // Set initial test data
+        setTestData();
+    </script>
+</body>
+</html>

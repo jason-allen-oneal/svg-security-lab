@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVG Security Lab - DOMPurify Defense Demo</title>
+    
+    <!-- DOMPurify library for sanitization -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.5/purify.min.js"></script>
+    
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .warning-banner {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .demo-section {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .demo-title {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .svg-container {
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+            background: #fafafa;
+        }
+        
+        .status {
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        
+        .status.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .status.warning {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        
+        .status.danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+            margin: 10px 0;
+        }
+        
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .button {
+            background: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+        }
+        
+        .button:hover {
+            background: #2980b9;
+        }
+        
+        .button.danger {
+            background: #e74c3c;
+        }
+        
+        .button.danger:hover {
+            background: #c0392b;
+        }
+        
+        .button.success {
+            background: #27ae60;
+        }
+        
+        .button.success:hover {
+            background: #229954;
+        }
+        
+        @media (max-width: 768px) {
+            .comparison {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="warning-banner">
+        <h1>🛡️ SVG Security Lab - DOMPurify Defense Demo</h1>
+        <p><strong>Educational Purpose Only:</strong> This demonstrates how DOMPurify sanitizes SVG content to prevent attacks.</p>
+    </div>
+
+    <div class="demo-section">
+        <h2 class="demo-title">DOMPurify SVG Sanitization</h2>
+        
+        <div class="status success">
+            ✅ <strong>DOMPurify Active:</strong> DOMPurify library is loaded and ready to sanitize SVG content
+        </div>
+        
+        <p>DOMPurify is a DOM-only, super-fast, uber-tolerant XSS sanitizer for HTML, MathML and SVG. It's written in JavaScript and works in all modern browsers.</p>
+        
+        <h3>How DOMPurify Works:</h3>
+        <ul>
+            <li><strong>Parses:</strong> Converts HTML/SVG strings to DOM nodes</li>
+            <li><strong>Sanitizes:</strong> Removes dangerous elements and attributes</li>
+            <li><strong>Serializes:</strong> Converts back to safe HTML/SVG string</li>
+        </ul>
+    </div>
+
+    <div class="demo-section">
+        <h2 class="demo-title">Interactive Sanitization Demo</h2>
+        
+        <div class="comparison">
+            <div>
+                <h3>🔴 Unsanitized SVG (Dangerous)</h3>
+                <p>This SVG contains malicious JavaScript that could execute:</p>
+                
+                <div class="code-block" id="unsanitized-code">
+&lt;svg xmlns="http://www.w3.org/2000/svg"&gt;
+  &lt;rect width="100" height="100" fill="red"/&gt;
+  &lt;script&gt;alert('XSS Attack!')&lt;/script&gt;
+&lt;/svg&gt;
+                </div>
+                
+                <button class="button danger" onclick="loadUnsanitized()">Load Unsanitized SVG</button>
+                
+                <div class="svg-container" id="unsanitized-container">
+                    <p>Click the button above to load the unsanitized SVG</p>
+                </div>
+                
+                <div class="status danger">
+                    🚨 <strong>Warning:</strong> This SVG contains malicious JavaScript
+                </div>
+            </div>
+            
+            <div>
+                <h3>🟢 Sanitized SVG (Safe)</h3>
+                <p>This SVG has been sanitized by DOMPurify:</p>
+                
+                <div class="code-block" id="sanitized-code">
+&lt;svg xmlns="http://www.w3.org/2000/svg"&gt;
+  &lt;rect width="100" height="100" fill="red"/&gt;
+  &lt;!-- Script removed by DOMPurify --&gt;
+&lt;/svg&gt;
+                </div>
+                
+                <button class="button success" onclick="loadSanitized()">Load Sanitized SVG</button>
+                
+                <div class="svg-container" id="sanitized-container">
+                    <p>Click the button above to load the sanitized SVG</p>
+                </div>
+                
+                <div class="status success">
+                    ✅ <strong>Safe:</strong> DOMPurify removed the malicious script
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="demo-section">
+        <h2 class="demo-title">DOMPurify Configuration Examples</h2>
+        
+        <h3>1. Basic SVG Sanitization</h3>
+        <div class="code-block">
+// Basic sanitization - removes all scripts
+const cleanSVG = DOMPurify.sanitize(svgContent);
+        </div>
+        
+        <h3>2. Custom SVG Configuration</h3>
+        <div class="code-block">
+// Allow only specific SVG elements and attributes
+const cleanSVG = DOMPurify.sanitize(svgContent, {
+  ALLOWED_TAGS: ['svg', 'rect', 'circle', 'text', 'path'],
+  ALLOWED_ATTR: ['width', 'height', 'fill', 'stroke', 'cx', 'cy', 'r'],
+  FORBID_TAGS: ['script', 'foreignObject'],
+  FORBID_ATTR: ['onload', 'onclick', 'onerror']
+});
+        </div>
+        
+        <h3>3. Strict SVG Configuration</h3>
+        <div class="code-block">
+// Very restrictive configuration
+const cleanSVG = DOMPurify.sanitize(svgContent, {
+  ALLOWED_TAGS: ['svg', 'rect', 'circle'],
+  ALLOWED_ATTR: ['width', 'height', 'fill'],
+  KEEP_CONTENT: false,
+  RETURN_DOM: false,
+  RETURN_DOM_FRAGMENT: false
+});
+        </div>
+        
+        <h3>4. Sanitization with Custom Hooks</h3>
+        <div class="code-block">
+// Add custom sanitization logic
+DOMPurify.addHook('beforeSanitizeElements', function(current, hook, node) {
+  // Remove any element with 'on' attributes
+  if (node.hasAttribute && node.hasAttribute('on')) {
+    return 'REMOVE_ELEMENT';
+  }
+  return current;
+});
+
+const cleanSVG = DOMPurify.sanitize(svgContent);
+        </div>
+    </div>
+
+    <div class="demo-section">
+        <h2 class="demo-title">Real Attack Examples</h2>
+        
+        <h3>Attack Vector 1: Script Injection</h3>
+        <div class="code-block">
+// Malicious SVG with script
+&lt;svg&gt;
+  &lt;script&gt;alert('XSS')&lt;/script&gt;
+  &lt;rect width="100" height="100" fill="red"/&gt;
+&lt;/svg&gt;
+
+// After DOMPurify sanitization
+&lt;svg&gt;
+  &lt;rect width="100" height="100" fill="red"/&gt;
+&lt;/svg&gt;
+        </div>
+        
+        <h3>Attack Vector 2: Event Handlers</h3>
+        <div class="code-block">
+// Malicious SVG with event handlers
+&lt;svg&gt;
+  &lt;rect width="100" height="100" fill="red" 
+        onload="alert('XSS')" onclick="alert('XSS')"/&gt;
+&lt;/svg&gt;
+
+// After DOMPurify sanitization
+&lt;svg&gt;
+  &lt;rect width="100" height="100" fill="red"/&gt;
+&lt;/svg&gt;
+        </div>
+        
+        <h3>Attack Vector 3: Foreign Objects</h3>
+        <div class="code-block">
+// Malicious SVG with foreignObject
+&lt;svg&gt;
+  &lt;foreignObject&gt;
+    &lt;script&gt;alert('XSS')&lt;/script&gt;
+  &lt;/foreignObject&gt;
+&lt;/svg&gt;
+
+// After DOMPurify sanitization (with FORBID_TAGS)
+&lt;svg&gt;&lt;/svg&gt;
+        </div>
+    </div>
+
+    <div class="demo-section">
+        <h2 class="demo-title">Implementation Best Practices</h2>
+        
+        <ul>
+            <li><strong>Always Sanitize:</strong> Never trust user-provided SVG content</li>
+            <li><strong>Use Strict Configurations:</strong> Only allow necessary elements and attributes</li>
+            <li><strong>Test Thoroughly:</strong> Verify sanitization works against known attack vectors</li>
+            <li><strong>Keep Updated:</strong> Use the latest version of DOMPurify</li>
+            <li><strong>Combine Defenses:</strong> Use DOMPurify with CSP and other protections</li>
+        </ul>
+        
+        <div class="status success">
+            ✅ <strong>Result:</strong> DOMPurify successfully removes malicious content while preserving legitimate SVG elements.
+        </div>
+    </div>
+
+    <script>
+        // Sample malicious SVG content
+        const maliciousSVG = 
+            '<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200">' +
+                '<rect width="100" height="100" fill="red" x="50" y="50"/>' +
+                '<circle cx="100" cy="100" r="30" fill="blue"/>' +
+                '<text x="100" y="120" text-anchor="middle" fill="white">SVG</text>' +
+                '<script>alert("XSS Attack! This script would execute without sanitization.");</script>' +
+                '<foreignObject width="0" height="0">' +
+                    '<div xmlns="http://www.w3.org/1999/xhtml">' +
+                        '<script>console.log("Another XSS vector");</script>' +
+                    '</div>' +
+                '</foreignObject>' +
+            '</svg>';
+
+        function loadUnsanitized() {
+            const container = document.getElementById('unsanitized-container');
+            container.innerHTML = maliciousSVG;
+            
+            // Show the actual code
+            document.getElementById('unsanitized-code').textContent = maliciousSVG;
+            
+            console.log('⚠️ EDUCATIONAL DEMO: Loaded unsanitized SVG (simulated attack)');
+        }
+
+        function loadSanitized() {
+            // Sanitize the SVG content
+            const cleanSVG = DOMPurify.sanitize(maliciousSVG, {
+                ALLOWED_TAGS: ['svg', 'rect', 'circle', 'text'],
+                ALLOWED_ATTR: ['width', 'height', 'fill', 'x', 'y', 'cx', 'cy', 'r', 'text-anchor'],
+                FORBID_TAGS: ['script', 'foreignObject'],
+                FORBID_ATTR: ['onload', 'onclick', 'onerror']
+            });
+            
+            const container = document.getElementById('sanitized-container');
+            container.innerHTML = cleanSVG;
+            
+            // Show the sanitized code
+            document.getElementById('sanitized-code').textContent = cleanSVG;
+            
+            console.log('✅ EDUCATIONAL DEMO: Loaded sanitized SVG (safe)');
+            console.log('Sanitized content:', cleanSVG);
+        }
+
+        // Initialize the demo
+        console.log('🛡️ SVG Security Lab - DOMPurify Demo Loaded');
+        console.log('DOMPurify version:', DOMPurify.version);
+    </script>
+</body>
+</html>

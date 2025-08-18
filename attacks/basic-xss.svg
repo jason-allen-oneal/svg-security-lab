@@ -1,0 +1,64 @@
+<!-- 
+  EDUCATIONAL SVG SECURITY LAB - BASIC XSS DEMONSTRATION
+  ⚠️ WARNING: This is a synthetic educational example only.
+  Do not use against real systems without authorization.
+  
+  This file demonstrates how SVG files can execute JavaScript
+  through the <script> tag, which is a common XSS attack vector.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">
+  <!-- Visual elements to make the SVG appear legitimate -->
+  <rect width="400" height="300" fill="#f0f8ff"/>
+  <circle cx="200" cy="150" r="80" fill="#4169e1" stroke="#000080" stroke-width="3"/>
+  <text x="200" y="160" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" fill="white" font-weight="bold">
+    EDUCATIONAL DEMO
+  </text>
+  <text x="200" y="180" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#333">
+    SVG Security Lab
+  </text>
+  
+  <!-- EDUCATIONAL DEMONSTRATION: This shows how malicious SVG files can execute JavaScript -->
+  <script>
+    // SYNTHETIC PAYLOAD - FOR EDUCATIONAL PURPOSES ONLY
+    // This demonstrates a basic XSS attack vector through SVG files
+    
+    console.log('[EDUCATIONAL DEMO] SVG script execution detected');
+    console.log('[EDUCATIONAL DEMO] This demonstrates how SVG files can execute arbitrary JavaScript');
+    
+    // Simulate a harmless "attack" for educational purposes
+    var demoData = {
+      timestamp: new Date().toISOString(),
+      userAgent: navigator.userAgent,
+      location: window.location.href,
+      cookies: document.cookie ? 'Cookies present' : 'No cookies found',
+      localStorage: localStorage.length > 0 ? 'Local storage present' : 'No local storage'
+    };
+    
+    console.log('[EDUCATIONAL DEMO] Collected data (synthetic):', demoData);
+    
+    // Display educational message instead of actual attack
+    var demoDiv = document.createElement('div');
+    demoDiv.style.cssText = 'position:fixed;top:10px;right:10px;background:#ff6b6b;color:white;padding:10px;border-radius:5px;z-index:9999;font-family:Arial;font-size:12px;max-width:300px;';
+    demoDiv.innerHTML = `
+      <strong>⚠️ EDUCATIONAL DEMO</strong><br>
+      This SVG executed JavaScript!<br>
+      <small>This demonstrates an XSS vulnerability.<br>
+      In a real attack, this could steal data.</small>
+    `;
+    document.body.appendChild(demoDiv);
+    
+    // Remove the demo message after 5 seconds
+    setTimeout(function() {
+      if (demoDiv.parentNode) {
+        demoDiv.parentNode.removeChild(demoDiv);
+      }
+    }, 5000);
+    
+    // EDUCATIONAL NOTE: In a real attack, this script could:
+    // - Steal cookies and session data
+    // - Access localStorage and sessionStorage
+    // - Make unauthorized requests
+    // - Execute arbitrary code
+    // - Perform phishing attacks
+  </script>
+</svg>

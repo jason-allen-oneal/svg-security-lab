@@ -1,0 +1,104 @@
+<!-- 
+  EDUCATIONAL SVG SECURITY LAB - OBFUSCATION DEMONSTRATION
+  ⚠️ WARNING: This is a synthetic educational example only.
+  Do not use against real systems without authorization.
+  
+  This file demonstrates obfuscation techniques used by attackers
+  to hide malicious code and evade detection systems.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">
+  <!-- Visual elements to make the SVG appear legitimate -->
+  <rect width="400" height="300" fill="#f0fff0"/>
+  <circle cx="200" cy="150" r="80" fill="#32cd32" stroke="#228b22" stroke-width="3"/>
+  <text x="200" y="160" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" fill="white" font-weight="bold">
+    OBFUSCATED
+  </text>
+  <text x="200" y="180" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#333">
+    Evasion Techniques
+  </text>
+  
+  <!-- EDUCATIONAL DEMONSTRATION: This shows obfuscation techniques -->
+  <foreignObject width="0" height="0">
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <script>
+        // SYNTHETIC OBFUSCATED PAYLOAD - FOR EDUCATIONAL PURPOSES ONLY
+        // This demonstrates various obfuscation techniques used by attackers
+        
+        console.log('[EDUCATIONAL DEMO] Obfuscated payload execution started');
+        
+        // Obfuscation Technique 1: Base64 Encoding
+        var _0x1a2b = 'ZWR1Y2F0aW9uYWw='; // "educational" in base64
+        var _0x3c4d = 'ZGVtbw=='; // "demo" in base64
+        
+        // Obfuscation Technique 2: String Splitting
+        var _0x5e6f = 'EDU' + 'CAT' + 'ION' + 'AL';
+        var _0x7g8h = 'DEM' + 'O';
+        
+        // Obfuscation Technique 3: Hex Encoding
+        var _0x9i0j = '\x45\x44\x55\x43\x41\x54\x49\x4f\x4e\x41\x4c'; // "EDUCATIONAL"
+        
+        // Obfuscation Technique 4: Variable Obfuscation
+        var _0xa1b2 = function(str) { return atob(str); };
+        var _0xc3d4 = function(str) { return String.fromCharCode.apply(null, str.split('').map(c => c.charCodeAt(0))); };
+        
+        // Decode the obfuscated strings
+        var demoType = _0xa1b2(_0x1a2b) + ' ' + _0xa1b2(_0x3c4d);
+        var obfuscationMethod = _0x5e6f + ' ' + _0x7g8h;
+        var technique = _0xc3d4(_0x9i0j);
+        
+        console.log('[EDUCATIONAL DEMO] Decoded obfuscated strings:', {
+          demoType: demoType,
+          obfuscationMethod: obfuscationMethod,
+          technique: technique
+        });
+        
+        // Simulate the "malicious" behavior (harmless for educational purposes)
+        var educationalPayload = {
+          timestamp: new Date().toISOString(),
+          type: demoType,
+          method: obfuscationMethod,
+          technique: technique,
+          userAgent: navigator.userAgent.substring(0, 50) + '...',
+          location: window.location.href,
+          cookies: document.cookie ? 'Present (obfuscated)' : 'None'
+        };
+        
+        // Display educational message about obfuscation
+        var demoDiv = document.createElement('div');
+        demoDiv.style.cssText = 'position:fixed;top:10px;right:10px;background:#9932cc;color:white;padding:15px;border-radius:5px;z-index:9999;font-family:Arial;font-size:12px;max-width:350px;box-shadow:0 2px 10px rgba(0,0,0,0.3);';
+        demoDiv.innerHTML = `
+          <strong>🔒 EDUCATIONAL DEMO - Obfuscation</strong><br><br>
+          <strong>Obfuscation Techniques Used:</strong><br>
+          • Base64 Encoding: ${_0x1a2b}<br>
+          • String Splitting: ${_0x5e6f}<br>
+          • Hex Encoding: ${_0x9i0j.substring(0, 20)}...<br>
+          • Variable Obfuscation: _0x1a2b, _0x3c4d, etc.<br><br>
+          <small>⚠️ These techniques help evade detection systems.</small>
+        `;
+        document.body.appendChild(demoDiv);
+        
+        // Simulate "malicious" behavior
+        console.log('[EDUCATIONAL DEMO] Obfuscated payload executed successfully');
+        console.log('[EDUCATIONAL DEMO] In a real attack, this would be much more complex');
+        console.log('[EDUCATIONAL DEMO] Educational demo complete - no actual harm caused');
+        
+        // Remove the demo message after 8 seconds
+        setTimeout(function() {
+          if (demoDiv.parentNode) {
+            demoDiv.parentNode.removeChild(demoDiv);
+          }
+        }, 8000);
+        
+        // EDUCATIONAL NOTE: Real obfuscation techniques include:
+        // - Base64, hex, and custom encoding
+        // - String concatenation and splitting
+        // - Variable name obfuscation
+        // - Dynamic code generation (eval, Function)
+        // - Control flow obfuscation
+        // - Dead code insertion
+        // - Anti-debugging techniques
+        // - Polymorphic code generation
+      </script>
+    </div>
+  </foreignObject>
+</svg> 

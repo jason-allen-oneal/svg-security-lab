@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVG Security Lab - CSP Defense Demo</title>
+    
+    <!-- Content Security Policy - Blocks script execution -->
+    <meta http-equiv="Content-Security-Policy" 
+          content="default-src 'self'; 
+                   script-src 'none'; 
+                   style-src 'self' 'unsafe-inline'; 
+                   img-src 'self' data:; 
+                   object-src 'none';">
+    
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .warning-banner {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .demo-section {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .demo-title {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .svg-container {
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+            background: #fafafa;
+        }
+        
+        .status {
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        
+        .status.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .status.warning {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        
+        .status.danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+            margin: 10px 0;
+        }
+        
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        @media (max-width: 768px) {
+            .comparison {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="warning-banner">
+        <h1>🛡️ SVG Security Lab - CSP Defense Demo</h1>
+        <p><strong>Educational Purpose Only:</strong> This demonstrates how Content Security Policy (CSP) protects against SVG-based attacks.</p>
+    </div>
+
+    <div class="demo-section">
+        <h2 class="demo-title">Content Security Policy (CSP) Protection</h2>
+        
+        <div class="status success">
+            ✅ <strong>CSP Active:</strong> Content Security Policy is enabled and blocking script execution
+        </div>
+        
+        <p>This page has a strict Content Security Policy that prevents SVG files from executing JavaScript. The CSP header is:</p>
+        
+        <div class="code-block">
+&lt;meta http-equiv="Content-Security-Policy" 
+      content="default-src 'self'; 
+               script-src 'none'; 
+               style-src 'self' 'unsafe-inline'; 
+               img-src 'self' data:; 
+               object-src 'none';"&gt;
+        </div>
+        
+        <h3>What CSP Blocks:</h3>
+        <ul>
+            <li><strong>script-src 'none':</strong> Blocks all JavaScript execution</li>
+            <li><strong>object-src 'none':</strong> Blocks object/embed elements</li>
+            <li><strong>default-src 'self':</strong> Restricts resources to same origin</li>
+        </ul>
+    </div>
+
+    <div class="demo-section">
+        <h2 class="demo-title">Testing SVG Attack Vectors</h2>
+        
+        <div class="comparison">
+            <div>
+                <h3>🔴 Without CSP (Vulnerable)</h3>
+                <p>In a vulnerable page, these SVG files would execute JavaScript and potentially steal data.</p>
+                
+                <div class="svg-container">
+                    <h4>Basic XSS Attack</h4>
+                    <object data="../attacks/basic-xss.svg" type="image/svg+xml" width="300" height="200">
+                        <p>SVG not supported</p>
+                    </object>
+                    <div class="status warning">
+                        ⚠️ This SVG contains JavaScript that would execute without CSP
+                    </div>
+                </div>
+                
+                <div class="svg-container">
+                    <h4>Cookie Theft Attack</h4>
+                    <object data="../attacks/cookie-theft.svg" type="image/svg+xml" width="300" height="200">
+                        <p>SVG not supported</p>
+                    </object>
+                    <div class="status danger">
+                        🚨 This SVG would steal cookies without CSP protection
+                    </div>
+                </div>
+            </div>
+            
+            <div>
+                <h3>🟢 With CSP (Protected)</h3>
+                <p>With CSP enabled, JavaScript execution is blocked, making these attacks harmless.</p>
+                
+                <div class="svg-container">
+                    <h4>Blocked XSS Attack</h4>
+                    <object data="../attacks/basic-xss.svg" type="image/svg+xml" width="300" height="200">
+                        <p>SVG not supported</p>
+                    </object>
+                    <div class="status success">
+                        ✅ CSP blocked JavaScript execution - attack neutralized
+                    </div>
+                </div>
+                
+                <div class="svg-container">
+                    <h4>Blocked Cookie Theft</h4>
+                    <object data="../attacks/cookie-theft.svg" type="image/svg+xml" width="300" height="200">
+                        <p>SVG not supported</p>
+                    </object>
+                    <div class="status success">
+                        ✅ CSP blocked data exfiltration - cookies safe
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="demo-section">
+        <h2 class="demo-title">CSP Implementation Guide</h2>
+        
+        <h3>1. Basic CSP Header</h3>
+        <div class="code-block">
+Content-Security-Policy: default-src 'self'; script-src 'none'
+        </div>
+        
+        <h3>2. Strict CSP for SVG Protection</h3>
+        <div class="code-block">
+Content-Security-Policy: 
+  default-src 'self'; 
+  script-src 'none'; 
+  object-src 'none'; 
+  style-src 'self' 'unsafe-inline'; 
+  img-src 'self' data: blob:;
+        </div>
+        
+        <h3>3. Report-Only Mode (for testing)</h3>
+        <div class="code-block">
+Content-Security-Policy-Report-Only: 
+  default-src 'self'; 
+  script-src 'none'; 
+  report-uri /csp-report
+        </div>
+        
+        <h3>4. Nonce-based CSP (if scripts needed)</h3>
+        <div class="code-block">
+Content-Security-Policy: 
+  default-src 'self'; 
+  script-src 'nonce-random123'; 
+  object-src 'none'
+        </div>
+    </div>
+
+    <div class="demo-section">
+        <h2 class="demo-title">Browser Console Analysis</h2>
+        
+        <p>Open your browser's developer console to see CSP violation reports:</p>
+        
+        <div class="code-block">
+// CSP violations will appear as warnings like:
+// Refused to execute inline script because it violates the following 
+// Content Security Policy directive: "script-src 'none'"
+        </div>
+        
+        <div class="status info">
+            💡 <strong>Tip:</strong> CSP violations are logged to the console, helping you identify and fix security issues.
+        </div>
+    </div>
+
+    <div class="demo-section">
+        <h2 class="demo-title">Best Practices</h2>
+        
+        <ul>
+            <li><strong>Start Strict:</strong> Begin with a restrictive CSP and relax as needed</li>
+            <li><strong>Use Report-Only:</strong> Test CSP in report-only mode before enforcing</li>
+            <li><strong>Monitor Violations:</strong> Set up CSP violation reporting</li>
+            <li><strong>Regular Updates:</strong> Keep CSP policies updated with new threats</li>
+            <li><strong>Test Thoroughly:</strong> Ensure legitimate functionality still works</li>
+        </ul>
+        
+        <div class="status success">
+            ✅ <strong>Result:</strong> CSP successfully blocks all SVG-based JavaScript attacks while allowing legitimate SVG rendering.
+        </div>
+    </div>
+
+    <script>
+        // This script won't execute due to CSP
+        console.log('This script is blocked by CSP');
+    </script>
+</body>
+</html>

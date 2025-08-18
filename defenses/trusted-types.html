@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVG Security Lab - Trusted Types Defense Demo</title>
+    
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .warning-banner {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .demo-section {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .demo-title {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .svg-container {
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+            background: #fafafa;
+        }
+        
+        .status {
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        
+        .status.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .status.warning {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        
+        .status.danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+            margin: 10px 0;
+        }
+        
+        .button {
+            background: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+        }
+        
+        .button:hover {
+            background: #2980b9;
+        }
+        
+        .button.danger {
+            background: #e74c3c;
+        }
+        
+        .button.danger:hover {
+            background: #c0392b;
+        }
+        
+        .button.success {
+            background: #27ae60;
+        }
+        
+        .button.success:hover {
+            background: #229954;
+        }
+        
+        .input-group {
+            margin: 15px 0;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="warning-banner">
+        <h1>🛡️ SVG Security Lab - Trusted Types Defense Demo</h1>
+        <p><strong>Educational Purpose Only:</strong> This demonstrates how Trusted Types prevent DOM-based XSS attacks.</p>
+    </div>
+
+    <div class="demo-section">
+        <h2 class="demo-title">Trusted Types Protection</h2>
+        
+        <div class="status success">
+            ✅ <strong>Trusted Types Active:</strong> Trusted Types policy is configured and protecting against DOM-based XSS
+        </div>
+        
+        <p>Trusted Types is a web platform API that helps prevent DOM-based XSS attacks by requiring developers to sanitize values before they can be assigned to DOM properties that can execute code.</p>
+        
+        <h3>How Trusted Types Works:</h3>
+        <ul>
+            <li><strong>Policy Creation:</strong> Define policies for sanitizing untrusted content</li>
+            <li><strong>Type Enforcement:</strong> Browser enforces that only Trusted Types can be assigned to dangerous sinks</li>
+            <li><strong>Sanitization:</strong> Untrusted content must be processed through a policy before use</li>
+        </ul>
+    </div>
+
+    <div class="demo-section">
+        <h2 class="demo-title">Interactive Trusted Types Demo</h2>
+        
+        <div class="input-group">
+            <label for="svgInput">Enter SVG Content (try adding &lt;script&gt; tags):</label>
+            <input type="text" id="svgInput" placeholder="<svg><rect width='100' height='100' fill='red'/><script>alert('XSS')</script></svg>" value="<svg><rect width='100' height='100' fill='red'/></svg>">
+        </div>
+        
+        <button class="button danger" onclick="loadUnsafeSVG()">Load Unsafe SVG (Blocked by Trusted Types)</button>
+        <button class="button success" onclick="loadSafeSVG()">Load Safe SVG (Sanitized)</button>
+        
+        <div class="svg-container" id="svgOutput">
+            <p>SVG output will appear here after clicking a button</p>
+        </div>
+        
+        <div class="status warning" id="statusMessage">
+            ⚠️ <strong>Status:</strong> Ready to test Trusted Types protection
+        </div>
+    </div>
+
+    <div class="demo-section">
+        <h2 class="demo-title">Trusted Types Implementation</h2>
+        
+        <h3>1. Basic Trusted Types Setup</h3>
+        <div class="code-block">
+// Enable Trusted Types enforcement
+if (window.trustedTypes && window.trustedTypes.createPolicy) {
+  // Create a default policy
+  window.trustedTypes.createPolicy('default', {
+    createHTML: (string) => string.replace(/&lt;script&gt;/gi, ''),
+    createScript: (string) => string,
+    createScriptURL: (string) => string
+  });
+}
+        </div>
+        
+        <h3>2. Custom SVG Sanitization Policy</h3>
+        <div class="code-block">
+// Create a policy specifically for SVG content
+const svgPolicy = trustedTypes.createPolicy('svg-policy', {
+  createHTML: (string) => {
+    // Remove script tags and event handlers
+    return string
+      .replace(/&lt;script[^&gt;]*&gt;.*?&lt;\/script&gt;/gi, '')
+      .replace(/on\w+\s*=\s*["'][^"']*["']/gi, '')
+      .replace(/&lt;foreignObject[^&gt;]*&gt;.*?&lt;\/foreignObject&gt;/gi, '');
+  }
+});
+        </div>
+        
+        <h3>3. Using Trusted Types with innerHTML</h3>
+        <div class="code-block">
+// This will be blocked without Trusted Types
+element.innerHTML = untrustedSVG; // ❌ Blocked
+
+// This works with Trusted Types
+element.innerHTML = svgPolicy.createHTML(untrustrustedSVG); // ✅ Allowed
+        </div>
+        
+        <h3>4. Content Security Policy Integration</h3>
+        <div class="code-block">
+// CSP header to enable Trusted Types
+Content-Security-Policy: 
+  require-trusted-types-for 'script';
+  trusted-types 'svg-policy' 'default';
+        </div>
+    </div>
+
+    <div class="demo-section">
+        <h2 class="demo-title">Attack Prevention Examples</h2>
+        
+        <h3>Attack Vector 1: Script Injection</h3>
+        <div class="code-block">
+// Malicious input
+const maliciousSVG = "&lt;svg&gt;&lt;script&gt;alert('XSS')&lt;/script&gt;&lt;/svg&gt;";
+
+// Without Trusted Types (vulnerable)
+element.innerHTML = maliciousSVG; // ❌ Executes script
+
+// With Trusted Types (protected)
+element.innerHTML = svgPolicy.createHTML(maliciousSVG); // ✅ Script removed
+        </div>
+        
+        <h3>Attack Vector 2: Event Handler Injection</h3>
+        <div class="code-block">
+// Malicious input with event handler
+const maliciousSVG = "&lt;svg&gt;&lt;rect onload='alert(\"XSS\")'/&gt;&lt;/svg&gt;";
+
+// Trusted Types sanitization removes event handlers
+element.innerHTML = svgPolicy.createHTML(maliciousSVG); // ✅ Event handler removed
+        </div>
+        
+        <h3>Attack Vector 3: Foreign Object Injection</h3>
+        <div class="code-block">
+// Malicious input with foreignObject
+const maliciousSVG = "&lt;svg&gt;&lt;foreignObject&gt;&lt;script&gt;alert('XSS')&lt;/script&gt;&lt;/foreignObject&gt;&lt;/svg&gt;";
+
+// Trusted Types sanitization removes foreignObject
+element.innerHTML = svgPolicy.createHTML(maliciousSVG); // ✅ foreignObject removed
+        </div>
+    </div>
+
+    <div class="demo-section">
+        <h2 class="demo-title">Browser Support and Fallbacks</h2>
+        
+        <div class="status info">
+            💡 <strong>Browser Support:</strong> Trusted Types is supported in Chromium-based browsers (Chrome, Edge, Opera)
+        </div>
+        
+        <h3>Feature Detection and Fallback</h3>
+        <div class="code-block">
+// Check if Trusted Types is supported
+if (window.trustedTypes && window.trustedTypes.createPolicy) {
+  // Use Trusted Types
+  const policy = trustedTypes.createPolicy('default', {
+    createHTML: (string) => sanitizeHTML(string)
+  });
+  element.innerHTML = policy.createHTML(untrustedContent);
+} else {
+  // Fallback to manual sanitization
+  element.innerHTML = sanitizeHTML(untrustedContent);
+}
+        </div>
+    </div>
+
+    <script>
+        // Trusted Types Policy Setup
+        if (window.trustedTypes && window.trustedTypes.createPolicy) {
+            // Create a default policy for SVG sanitization
+            window.trustedTypes.createPolicy('default', {
+                createHTML: (string) => {
+                    // Basic SVG sanitization
+                    return string
+                        .replace(/<script[^>]*>.*?<\/script>/gi, '')
+                        .replace(/on\w+\s*=\s*["'][^"']*["']/gi, '')
+                        .replace(/<foreignObject[^>]*>.*?<\/foreignObject>/gi, '');
+                },
+                createScript: (string) => string,
+                createScriptURL: (string) => string
+            });
+            
+            console.log('✅ Trusted Types policy created successfully');
+        } else {
+            console.log('⚠️ Trusted Types not supported in this browser');
+        }
+
+        function loadUnsafeSVG() {
+            const svgContent = document.getElementById('svgInput').value;
+            const output = document.getElementById('svgOutput');
+            const status = document.getElementById('statusMessage');
+            
+            try {
+                // This should be blocked by Trusted Types
+                output.innerHTML = svgContent;
+                status.className = 'status danger';
+                status.innerHTML = '❌ <strong>Error:</strong> Trusted Types should have blocked this!';
+            } catch (error) {
+                status.className = 'status success';
+                status.innerHTML = '✅ <strong>Protected:</strong> Trusted Types blocked unsafe content';
+                console.log('Trusted Types blocked unsafe content:', error);
+            }
+        }
+
+        function loadSafeSVG() {
+            const svgContent = document.getElementById('svgInput').value;
+            const output = document.getElementById('svgOutput');
+            const status = document.getElementById('statusMessage');
+            
+            try {
+                if (window.trustedTypes && window.trustedTypes.createPolicy) {
+                    // Use Trusted Types policy
+                    const policy = trustedTypes.createPolicy('svg-policy', {
+                        createHTML: (string) => {
+                            return string
+                                .replace(/<script[^>]*>.*?<\/script>/gi, '')
+                                .replace(/on\w+\s*=\s*["'][^"']*["']/gi, '')
+                                .replace(/<foreignObject[^>]*>.*?<\/foreignObject>/gi, '');
+                        }
+                    });
+                    output.innerHTML = policy.createHTML(svgContent);
+                } else {
+                    // Fallback sanitization
+                    const sanitized = svgContent
+                        .replace(/<script[^>]*>.*?<\/script>/gi, '')
+                        .replace(/on\w+\s*=\s*["'][^"']*["']/gi, '')
+                        .replace(/<foreignObject[^>]*>.*?<\/foreignObject>/gi, '');
+                    output.innerHTML = sanitized;
+                }
+                
+                status.className = 'status success';
+                status.innerHTML = '✅ <strong>Safe:</strong> SVG content sanitized and loaded';
+            } catch (error) {
+                status.className = 'status danger';
+                status.innerHTML = '❌ <strong>Error:</strong> ' + error.message;
+                console.error('Error loading safe SVG:', error);
+            }
+        }
+
+        // Initialize the demo
+        console.log('🛡️ SVG Security Lab - Trusted Types Demo Loaded');
+    </script>
+</body>
+</html>

